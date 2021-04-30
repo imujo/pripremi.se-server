@@ -3,17 +3,24 @@ const cors = require('cors')
 const knex = require('knex')
 const fs=require('fs')
 const {zipMature} = require('./functions')
+var pg = require('pg');
 
 // Connect database
 const db = knex({
     client: 'pg',
-    connection: {
-      host : '127.0.0.1',
-      user : 'postgres',
-      password : 'IvoMujo2003',
-      database : 'pripremise'
-    }
+    connection: 'postgres://doxszllf:OTvXWxzAK4TKM0jbnMdeaMBYGK06UZal@dumbo.db.elephantsql.com:5432/doxszllf'
   });
+
+
+  // const db = knex({
+  //   client: 'pg',
+  //   connection: {
+  //     host : '127.0.0.1',
+  //     user : 'postgres',
+  //     password : 'IvoMujo2003',
+  //     database : 'pripremise'
+  //   }
+  // });
 
 
 const app=express();
@@ -47,6 +54,8 @@ app.get('/mature/:sortOrder', (req, res)=>{
 // Iterate
 app.post('/iterate/:predmeti', (req, res)=>{
   const predmet = req.params.predmeti
+
+  console.log('iterate', predmet)
 
   db('mature')
     .where('predmet', predmet)
