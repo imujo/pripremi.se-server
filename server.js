@@ -5,22 +5,34 @@ const fs=require('fs')
 const {zipMature} = require('./functions')
 var pg = require('pg');
 
+require('dotenv').config()
+
+const {PASSWORD, DATABASE, LOCATION, CONNECTION} = process.env
+
 // Connect database
-const db = knex({
+let db = {}
+
+if (LOCATION === 'local'){
+  console.log('local')
+  db = knex({
     client: 'pg',
-    connection: 'postgres://doxszllf:OTvXWxzAK4TKM0jbnMdeaMBYGK06UZal@dumbo.db.elephantsql.com:5432/doxszllf'
+    connection: {
+      host : '127.0.0.1',
+      user : 'postgres',
+      password : PASSWORD,
+      database : DATABASE
+    }
   });
+}else{
+  console.log('server')
+  db = knex({
+    client: 'pg',
+    connection: CONNECTION
+  });
+}
 
 
-  // const db = knex({
-  //   client: 'pg',
-  //   connection: {
-  //     host : '127.0.0.1',
-  //     user : 'postgres',
-  //     password : 'IvoMujo2003',
-  //     database : 'pripremise'
-  //   }
-  // });
+
 
 
 const app=express();
