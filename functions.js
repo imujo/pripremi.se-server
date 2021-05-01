@@ -21,14 +21,16 @@ const zipMature = (data, matureDir) => {
             maturaObjects.push({
               path: `/Predmeti/${predmet}/A/${predmet} - A - ${i}`,
               predmet: predmet,
-              razina: 'A'
+              razina: 'A',
+              godina: i
             })
           }
           if (razinaB) {
             maturaObjects.push({
               path: `/Predmeti/${predmet}/B/${predmet} - B - ${i}`,
               predmet: predmet,
-              razina: 'B'
+              razina: 'B',
+              godina: i
             })
         }
       }
@@ -38,7 +40,8 @@ const zipMature = (data, matureDir) => {
         maturaObjects.push({
           path: `/Predmeti/${predmet}/${predmet} - ${i}`,
           predmet: predmet,
-          razina: false
+          razina: false,
+          godina: i
         })
       }
     }
@@ -46,12 +49,12 @@ const zipMature = (data, matureDir) => {
   
     
     for (const maturaObject of maturaObjects){
-      const {path, predmet, razina} = maturaObject;
+      const {path, predmet, razina, godina} = maturaObject;
 
       if (razina == false){
-        fse.copySync(__dirname + path, matureDir+`/${predmet}`)
+        fse.copySync(__dirname + path, matureDir+`/${predmet}/${godina}`)
       }else{
-        fse.copySync(__dirname + path, matureDir+`/${predmet}/${razina}`)
+        fse.copySync(__dirname + path, matureDir+`/${predmet}/${razina}/${godina}`)
       }
     }
   
