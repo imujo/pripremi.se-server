@@ -4,15 +4,25 @@ const knex = require('knex')
 const fs=require('fs')
 const {zipMature} = require('./functions')
 var pg = require('pg');
+const path = require('path')
+const { fileURLToPath } = require('url')
+
 
 require('dotenv').config()
 
-const {PASSWORD, DATABASE, LOCATION, CONNECTION} = process.env
+const {PASSWORD, DATABASE, CONNECTION, DEPLOYMENT} = process.env
+
 
 // Connect database
 let db = {}
 
-if (LOCATION === 'local'){
+if (DEPLOYMENT === 'true'){
+  console.log('server')
+  db = knex({
+    client: 'pg',
+    connection: CONNECTION
+  });
+}else{
   console.log('local')
   db = knex({
     client: 'pg',
@@ -23,12 +33,6 @@ if (LOCATION === 'local'){
       database : DATABASE
     }
   });
-}else{
-  console.log('server')
-  db = knex({
-    client: 'pg',
-    connection: CONNECTION
-  });
 }
 
 
@@ -38,6 +42,7 @@ if (LOCATION === 'local'){
 const app=express();
 app.use(express.json());
 app.use(cors())
+app.use(express.static(path.join(__dirname, 'build')));
 
 
 
@@ -103,8 +108,24 @@ app.post('/matured', (req,res)=>{
 
 })
 
+if (DEPLOYMENT === 'true'){
+  console.log('sever')
+  app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, FROM_DIRNAME_TO_BUILD, 'index.html'));
+  });
+}
 
-app.listen(5000)
+
+
+app.listen(9000)
+
+
+
+
+
+
+
+
 
 
 
