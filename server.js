@@ -112,6 +112,7 @@ app.post('/matured', (req, res) => {
     await zip(source, destination, {compression: COMPRESSION_LEVEL.uncompressed });
   }
 
+  // ZIP AND DOWNLOAD
   zipFolder().then(()=>{
     console.log('zipped')
     res.download(__dirname + '/Mature.zip', 'Mature.zip', (err) => {
@@ -123,9 +124,6 @@ app.post('/matured', (req, res) => {
   })
 
 
-
-
-  // DOWNLOAD
   
 
 
