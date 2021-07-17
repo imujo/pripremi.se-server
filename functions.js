@@ -1,12 +1,12 @@
 const fs=require('fs')
 const fse = require('fs-extra');
-const AdmZip = require('adm-zip');
+// const AdmZip = require('adm-zip');
 
 
 
-const zipMature = (data, matureDir) => {
+const createMatureFolder = (data, matureDir) => {
     maturaObjects = []
-    const file = new AdmZip();
+    // const file = new AdmZip();
 
     // For predmet in predmeti
     for (const predmet of Object.keys(data)){
@@ -57,11 +57,12 @@ const zipMature = (data, matureDir) => {
         fse.copySync(__dirname + path, matureDir+`/${predmet}/${razina}/${godina}`)
       }
     }
+
+
+    
+
   
-    // ZIP FOLDER
-    file.addLocalFolder(matureDir, 'Mature')
-    fs.writeFileSync('Mature.zip', file.toBuffer());
 }
 
 
-exports.zipMature = zipMature;
+exports.createMatureFolder = createMatureFolder;
